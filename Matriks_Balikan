@@ -1,0 +1,29 @@
+import numpy as np
+
+koefX_pers1 = int(input("Masukan koef x persamaan 1 : "))
+koefY_pers1 = int(input("Masukan koef y persamaan 1 : "))
+koefZ_pers1 = int(input("Masukan koef z persamaan 1 : "))
+hasil_pers1 = int(input("Masukan hasil persamaan 1  : "))
+koefX_pers2 = int(input("Masukan koef x persamaan 2 : "))
+koefY_pers2 = int(input("Masukan koef y persamaan 2 : "))
+koefZ_pers2 = int(input("Masukan koef z persamaan 2 : "))
+hasil_pers2 = int(input("Masukan hasil persamaan 2  : "))
+koefX_pers3 = int(input("Masukan koef x persamaan 3 : "))
+koefY_pers3 = int(input("Masukan koef y persamaan 3 : "))
+koefZ_pers3 = int(input("Masukan koef z persamaan 3 : "))
+hasil_pers3 = int(input("Masukan hasil persamaan 3  : "))
+
+matriks_koefisien = np.array([[koefX_pers1, koefY_pers1, koefZ_pers1], 
+                              [koefX_pers2, koefY_pers2, koefZ_pers2], 
+                              [koefX_pers3, koefY_pers3, koefZ_pers3]])
+matriks_hasil = np.array([[hasil_pers1, hasil_pers2, hasil_pers3]])
+
+invers_koefisien = np.linalg.inv(matriks_koefisien)
+transpose_hasil = matriks_hasil.T
+
+hasil = np.dot(invers_koefisien, transpose_hasil)
+
+print("Solusi Perhitungan")
+print(f"X = {hasil[0]}")
+print(f"Y = {hasil[1]}")
+print(f"Z = {hasil[2]}")

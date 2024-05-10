@@ -1,0 +1,60 @@
+import numpy as np
+
+def lu_gauss_decomposition(A):
+    n = len(A)
+    L = np.eye(n)
+    U = np.zeros((n, n))
+
+    for k in range(n):
+        U[k, k:] = A[k, k:] - L[k, :k] @ U[:k, k:]
+        L[(k+1):, k] = A[(k+1):, k] - L[(k+1):, :] @ U[:, k]
+        L[(k+1):, k] /= U[k, k]
+
+    return L, U
+
+def forward_substitution(L, b):
+    n = len(b)
+    y = np.zeros(n)
+
+    for i in range(n):
+        y[i] = (b[i] - np.dot(L[i, :i], y[:i])) / L[i, i]
+
+    return y
+
+def backward_substitution(U, y):
+    n = len(y)
+    x = np.zeros(n)
+
+    for i in range(n-1, -1, -1):
+        x[i] = (y[i] - np.dot(U[i, i+1:], x[i+1:])) / U[i, i]
+
+    return x
+
+
+koefX_pers1 = int(input("Masukan koef x persamaan 1 : "))
+koefY_pers1 = int(input("Masukan koef y persamaan 1 : "))
+koefZ_pers1 = int(input("Masukan koef z persamaan 1 : "))
+hasil_pers1 = int(input("Masukan hasil persamaan 1  : "))
+koefX_pers2 = int(input("Masukan koef x persamaan 2 : "))
+koefY_pers2 = int(input("Masukan koef y persamaan 2 : "))
+koefZ_pers2 = int(input("Masukan koef z persamaan 2 : "))
+hasil_pers2 = int(input("Masukan hasil persamaan 2  : "))
+koefX_pers3 = int(input("Masukan koef x persamaan 3 : "))
+koefY_pers3 = int(input("Masukan koef y persamaan 3 : "))
+koefZ_pers3 = int(input("Masukan koef z persamaan 3 : "))
+hasil_pers3 = int(input("Masukan hasil persamaan 3  : "))
+
+matriks_koefisien = np.array([[koefX_pers1, koefY_pers1, koefZ_pers1], 
+                              [koefX_pers2, koefY_pers2, koefZ_pers2], 
+                              [koefX_pers3, koefY_pers3, koefZ_pers3]])
+matriks_hasil = np.array([hasil_pers1, hasil_pers2, hasil_pers3])
+
+matriks_L, matriks_U = lu_gauss_decomposition(matriks_koefisien)
+
+vektor_y = forward_substitution(matriks_L, matriks_hasil)
+hasil = backward_substitution(matriks_U, vektor_y)
+
+print("Solusi perhitungan")
+print(f"X = {hasil[0]}")
+print(f"Y = {hasil[1]}")
+print(f"Z = {hasil[2]}")
